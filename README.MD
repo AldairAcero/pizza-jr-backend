@@ -1,7 +1,7 @@
 to run the server use the following command:
-node index.js
+node index.js <br />
 
-------------urls product---------------
+------------urls product--------------- <br />
 GET /product <br />
 GET by id /product/id <br />
 PUT /product/id <br />
