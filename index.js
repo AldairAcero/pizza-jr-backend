@@ -16,7 +16,7 @@ app.get("/", async (req, res) => {
 
 app.get("/product", async (req, res) => {
   const pageNumber = req.query.page || 1;
-  const pageSize = req.query.page || 10;
+  const pageSize = req.query.size || 10;
 
   Product.paginate({}, { page: pageNumber, limit: pageSize }, (err, result) => {
     if (err) {
