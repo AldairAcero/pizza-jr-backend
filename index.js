@@ -62,6 +62,7 @@ app.put("/product/:id", async (req, res) => {
 
 app.delete("/product/:id", async (req, res) => {
   const { id } = req.params;
+  const product = await Product.findById(id);
   if (!product) return res.status(400).json({ message: "product not found" });
   const deletedProduct = await Product.findByIdAndDelete(id);
   return res.status(200).json(deletedProduct);
