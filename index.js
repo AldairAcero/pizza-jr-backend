@@ -17,6 +17,11 @@ app.get("/", async (req, res) => {
 });
 
 app.get("/product", async (req, res) => {
+  let result = await Product.find();
+  res.status(200).json(result);
+});
+
+app.get("/product/paginated", async (req, res) => {
   const pageNumber = req.query.page || 1;
   const pageSize = req.query.size || 10;
 
