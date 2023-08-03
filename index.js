@@ -1,77 +1,24 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const PropertiesReader = require("properties-reader");
-var properties = PropertiesReader("./app.properties");
+const properties = PropertiesReader("./app.properties");
 const connectionString = properties.get("dbconnection");
 const dbname = properties.get("database");
-const { Product } = require("./models/ProductSchema");
 const cors = require("cors");
-
+const productsController = require("./controller/productController");
+const userController = require("./controller/userController");
+const loginController = require("./controller/loginController");
+const port = 3001;
 const app = express();
+
 app.use(cors());
 app.use(express.json());
-const port = 3001;
 
-app.get("/", async (req, res) => {
-  res.send("Juan joto").status(200);
-});
+/*CONTROLLERS*/
 
-app.get("/product", async (req, res) => {
-  let result = await Product.find();
-  res.status(200).json(result);
-});
-
-app.get("/product/paginated", async (req, res) => {
-  const pageNumber = req.query.page || 1;
-  const pageSize = req.query.size || 10;
-
-  Product.paginate({}, { page: pageNumber, limit: pageSize }, (err, result) => {
-    if (err) {
-      console.log(err);
-      return res
-        .status(500)
-        .json({ message: "Error occurred while fetching products." });
-    }
-
-    const { docs, total, limit, page, pages } = result;
-    res.json({ result: docs, total, limit, page, pages });
-  });
-});
-
-app.get("/product/:id", async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
-  if (!product) return res.status(400).json({ message: "product not found" });
-  return res.status(200).json(product);
-});
-
-app.post("/product", async (req, res) => {
-  let newProduct = new Product({ ...req.body });
-  const insertedProduct = await newProduct.save();
-  return res.status(201).json(insertedProduct);
-});
-
-app.put("/product/:id", async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
-  if (!product) return res.status(400).json({ message: "product not found" });
-  const result = await Product.findByIdAndUpdate(
-    id,
-    { ...req.body },
-    {
-      returnOriginal: false,
-    }
-  );
-  return res.status(201).json(result);
-});
-
-app.delete("/product/:id", async (req, res) => {
-  const { id } = req.params;
-  const product = await Product.findById(id);
-  if (!product) return res.status(400).json({ message: "product not found" });
-  const deletedProduct = await Product.findByIdAndDelete(id);
-  return res.status(200).json(deletedProduct);
-});
+app.use("/product", productsController);
+app.use("/user", userController);
+app.use("/login", loginController);
 
 const start = async () => {
   try {

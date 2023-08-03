@@ -4,6 +4,9 @@ const mongoosePaginate = require("mongoose-paginate");
 
 const ProductShema = new mongoose.Schema(
   {
+    _id: {
+      type: ObjectId,
+    },
     name: {
       type: String,
       required: true,
