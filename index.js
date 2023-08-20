@@ -8,6 +8,7 @@ const cors = require("cors");
 const productsController = require("./controller/productController");
 const userController = require("./controller/userController");
 const loginController = require("./controller/loginController");
+const orderController = require("./controller/orderController");
 const port = 3001;
 const app = express();
 
@@ -19,6 +20,7 @@ app.use(express.json());
 app.use("/product", productsController);
 app.use("/user", userController);
 app.use("/login", loginController);
+app.use("/order", orderController);
 
 const start = async () => {
   try {
