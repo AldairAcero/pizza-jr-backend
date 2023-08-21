@@ -16,4 +16,19 @@ router.post("/", async (req, res) => {
   res.status(200).json(order);
 });
 
+router.put("/status", async (req, res) => {
+  const { _id, status } = req.body;
+
+  const order = await Order.findById(_id);
+  if (!order) return res.status(400).json({ message: "order not found" });
+  const result = await Order.findByIdAndUpdate(
+    _id,
+    { status },
+    {
+      returnOriginal: false,
+    }
+  );
+  return res.status(201).json(result);
+});
+
 module.exports = router;
