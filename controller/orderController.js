@@ -18,13 +18,13 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { status } = req.body;
+  const { status, repartidor_id, repartidor_name } = req.body;
 
   const order = await Order.findById(id);
   if (!order) return res.status(400).json({ message: "order not found" });
   const result = await Order.findByIdAndUpdate(
     id,
-    { status },
+    { status, repartidor_id, repartidor_name },
     {
       returnOriginal: false,
     }
