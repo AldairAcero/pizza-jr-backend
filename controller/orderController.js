@@ -16,19 +16,29 @@ router.post("/", async (req, res) => {
   res.status(200).json(order);
 });
 
-router.put("/status", async (req, res) => {
-  const { _id, status } = req.body;
+router.put("/:id", async (req, res) => {
+  const { id } = req.params;
+  const { status } = req.body;
 
-  const order = await Order.findById(_id);
+  const order = await Order.findById(id);
   if (!order) return res.status(400).json({ message: "order not found" });
   const result = await Order.findByIdAndUpdate(
-    _id,
+    id,
     { status },
     {
       returnOriginal: false,
     }
   );
-  return res.status(201).json(result);
+  return res.status(200).json(result);
+});
+
+router.delete("/:id", async (req, res) => {
+  const { id } = req.params;
+
+  const order = await Order.findById(id);
+  if (!order) return res.status(400).json({ message: "order not found" });
+  let orderDeleted = await Order.findByIdAndDelete(id);
+  return res.status(200).json(orderDeleted);
 });
 
 module.exports = router;
