@@ -25,7 +25,7 @@ const OrderSchema = new mongoose.Schema(
       required: false,
     },
     repartidor_id: {
-      type: ObjectId,
+      type: String,
       required: false,
     },
     repartidor_name: {
