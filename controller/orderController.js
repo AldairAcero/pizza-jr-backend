@@ -15,7 +15,6 @@ router.get("/last", async (req, res) => {
 router.post("/", async (req, res) => {
   const orderBody = req.body;
   let newOrder = new Order({ ...orderBody, status: "active" });
-  console.log(newOrder);
   let order = await newOrder.save();
 
   res.status(200).json(order);

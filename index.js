@@ -25,19 +25,21 @@ const io = new Server(server, {
     origin: "http://localhost:3000",
   },
 });
-io.on("connection", (socket) => {
-  console.log("connected to ws:" + socket.id);
-
-  socket.on("send_order", (data) => {
-    socket.broadcast.emit("send_order", (data));
-  });
-});
 
 /*CONTROLLERS*/
 app.use("/product", productsController);
 app.use("/user", userController);
 app.use("/login", loginController);
 app.use("/order", orderController);
+
+io.on("connection", (socket) => {
+  console.log("connected to ws:" + socket.id);
+
+  socket.on("send_order", (data) => {
+    //console.log(data);
+    socket.broadcast.emit("send_order", (data));
+  });
+});
 
 mongoose
   .connect(connectionString + dbname, { useNewUrlParser: true })
@@ -47,15 +49,3 @@ mongoose
       console.log("Server started on port " + port);
     });
   });
-
-/*const start = async () => {
-  try {
-    await mongoose.connect(connectionString + dbname);
-    app.listen(port, () => console.log("Server started on port " + port));
-  } catch (error) {
-    console.error(error);
-    process.exit(1);
-  }
-};
-
-start();*/
