@@ -7,6 +7,11 @@ router.get("/", async (req, res) => {
   res.status(200).json(result);
 });
 
+router.get("/last", async (req, res) => {
+  let result = await Order.findOne().sort({ _id: -1 });
+  res.status(200).json(result);
+});
+
 router.post("/", async (req, res) => {
   const orderBody = req.body;
   let newOrder = new Order({ ...orderBody, status: "active" });
