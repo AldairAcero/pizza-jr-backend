@@ -27,9 +27,9 @@ const io = new Server(server, {
 });
 io.on("connection", (socket) => {
   console.log("connected to ws:" + socket.id);
-  socket.on("order-updated", (data) => {
-    console.log(data);
-    socket.broadcast.emit("order-updated", data);
+
+  socket.on("send_order", (data) => {
+    socket.broadcast.emit("send_order", (data));
   });
 });
 
