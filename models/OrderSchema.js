@@ -32,6 +32,10 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       required: false,
     },
+    date: {
+      type: Date,
+      requiered: false,
+    },
   },
   {
     versionKey: false,

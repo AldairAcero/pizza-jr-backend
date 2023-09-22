@@ -3,7 +3,11 @@ const router = express.Router();
 const { Order } = require("./../models/OrderSchema");
 
 router.get("/", async (req, res) => {
-  let result = await Order.find();
+  const d = new Date().toISOString().slice(0, 10);
+  var date = d.replace(/-/g, "/");
+  let result = await Order.find({
+    date: { $gte: date, $lte: date },
+  });
   res.status(200).json(result);
 });
 
@@ -14,7 +18,11 @@ router.get("/last", async (req, res) => {
 
 router.post("/", async (req, res) => {
   const orderBody = req.body;
-  let newOrder = new Order({ ...orderBody, status: "active" });
+  let newOrder = new Order({
+    ...orderBody,
+    status: "active",
+    date: new Date().toISOString().slice(0, 10).replace(/-/g, "/"),
+  });
   let order = await newOrder.save();
 
   res.status(200).json(order);
