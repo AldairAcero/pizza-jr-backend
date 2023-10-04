@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Order } = require("./../models/OrderSchema");
+const { getLastSequenceToday } = require("../util/Sequence");
 
 router.get("/", async (req, res) => {
   const d = new Date().toISOString().slice(0, 10);
@@ -22,9 +23,10 @@ router.post("/", async (req, res) => {
     ...orderBody,
     status: "active",
     date: new Date().toISOString().slice(0, 10).replace(/-/g, "/"),
+    orderId: await getLastSequenceToday(),
   });
   let order = await newOrder.save();
-
+  console.log(order);
   res.status(200).json(order);
 });
 

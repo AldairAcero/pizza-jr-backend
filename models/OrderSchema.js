@@ -36,6 +36,10 @@ const OrderSchema = new mongoose.Schema(
       type: Date,
       requiered: false,
     },
+    orderId: {
+      type: Number,
+      requiered: false,
+    },
   },
   {
     versionKey: false,
