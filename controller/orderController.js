@@ -2,6 +2,10 @@ const express = require("express");
 const router = express.Router();
 const { Order } = require("./../models/OrderSchema");
 const { getLastSequenceToday } = require("../util/Sequence");
+const { printOrder } = require("../util/printerTicket");
+
+const PRINTER_1 = "t3";
+const PRINTER_2 = "t4";
 
 router.get("/", async (req, res) => {
   const d = new Date().toISOString().slice(0, 10);
@@ -26,7 +30,7 @@ router.post("/", async (req, res) => {
     orderId: await getLastSequenceToday(),
   });
   let order = await newOrder.save();
-  console.log(order);
+  printOrder(order, PRINTER_1);
   res.status(200).json(order);
 });
 
