@@ -17,8 +17,7 @@
     "mongoose": "^7.3.4",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.10.0",
-    "properties-reader": "^2.2.0",
-    "socket.io": "^4.7.2"
+    "properties-reader": "^2.2.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"
