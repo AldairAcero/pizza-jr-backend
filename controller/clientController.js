@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const Client = require("../models/ClientSchema");
+const { Client } = require("../models/ClientSchema");
 
 router.post("/", async (req, res) => {
   let newClient = new Client({ ...req.body });
@@ -9,8 +9,8 @@ router.post("/", async (req, res) => {
 });
 
 router.get("/", async (req, res) => {
-  let result = await Client.find();
-  res.status(200).json(result);
+  let result = await Client.find({});
+  return res.status(200).json(result);
 });
 
 module.exports = router;

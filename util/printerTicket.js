@@ -14,10 +14,11 @@ const options = {
     "Content-Type": "application/json",
   },
 };
-
+console.log("printer-ticket");
 const img = new Image();
 img.onload = () => ctx.drawImage(img, 0, 0);
 img.onerror = (err) => {
+  console.log("error img");
   throw err;
 };
 img.src = "./loogo.png";
@@ -25,14 +26,19 @@ img.src = "./loogo.png";
 const req = http.request(options, (res) => {
   let body = "";
   console.log("Status code: ", res.statusCode);
+});
 
-  res.on("data", (chunk) => {
-    body += chunk;
-  });
+req.on("error", function (e) {
+  //console.log(e);
+});
 
-  res.on("end", () => {
-    //console.log("Body:", Json.parse(data));
-  });
+req.on("data", (chunk) => {
+  body += chunk;
+  console.log("data");
+});
+
+req.on("end", () => {
+  console.log("end");
 });
 
 const getOrderEncoded = (order) => {
