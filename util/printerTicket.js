@@ -46,7 +46,7 @@ const getOrderEncoded = (order) => {
   let line = "-------------------------------------------";
   let date = new Date();
   let tipoOrdenString = order.mode;
-  if (order.mode == "delivered") {
+  if (order.mode == "enviada") {
     //tipoOrdenString =
     //tipoOrdenString + "->" + order.domicilio + "-" + order.telefono;
   }

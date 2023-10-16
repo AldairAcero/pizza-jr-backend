@@ -25,7 +25,7 @@ router.post("/", async (req, res) => {
   const orderBody = req.body;
   let newOrder = new Order({
     ...orderBody,
-    status: "activo",
+    status: "activa",
     date: new Date().toISOString().slice(0, 10).replace(/-/g, "/"),
     orderId: await getLastSequenceToday(),
   });
