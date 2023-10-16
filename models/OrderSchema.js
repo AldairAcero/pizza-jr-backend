@@ -8,7 +8,11 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    phone: {
+    client_address: {
+      type: String,
+      required: false,
+    },
+    client_phone: {
       type: String,
       required: false,
     },
