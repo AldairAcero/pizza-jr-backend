@@ -3,13 +3,12 @@ const router = express.Router();
 const { Order } = require("./../models/OrderSchema");
 const { getLastSequenceToday } = require("../util/Sequence");
 const { printOrder } = require("../util/printerTicket");
-
-const PRINTER_1 = "t3";
-const PRINTER_2 = "t4";
+const constants = require("../util/constants");
 
 router.get("/", async (req, res) => {
   const d = new Date().toISOString().slice(0, 10);
   var date = d.replace(/-/g, "/");
+  console.log(date);
   let result = await Order.find({
     date: { $gte: date, $lte: date },
   });
@@ -25,12 +24,12 @@ router.post("/", async (req, res) => {
   const orderBody = req.body;
   let newOrder = new Order({
     ...orderBody,
-    status: "activa",
+    status: constants.ACTIVE_ORDER,
     date: new Date().toISOString().slice(0, 10).replace(/-/g, "/"),
     orderId: await getLastSequenceToday(),
   });
   let order = await newOrder.save();
-  printOrder(order, PRINTER_1);
+  printOrder(order, constants.PRINTER_1);
   res.status(200).json(order);
 });
 
@@ -57,6 +56,18 @@ router.delete("/:id", async (req, res) => {
   if (!order) return res.status(400).json({ message: "order not found" });
   let orderDeleted = await Order.findByIdAndDelete(id);
   return res.status(200).json(orderDeleted);
+});
+
+router.get("/sales", async (req, res) => {
+  let startDate = req.query.startDate;
+  let endDate = req.query.endDate;
+  console.log(startDate);
+  console.log(endDate);
+  let result = await Order.find({
+    date: { $gte: startDate, $lte: endDate },
+    status: constants.DONE_ORDER,
+  });
+  res.status(200).json(result);
 });
 
 module.exports = router;

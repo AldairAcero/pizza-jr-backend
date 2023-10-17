@@ -4,6 +4,7 @@ const { createCanvas } = require("canvas");
 const canvas = createCanvas(200, 200);
 const ctx = canvas.getContext("2d");
 let EscPosEncoder = require("esc-pos-encoder");
+const constants = require("../util/constants");
 
 const options = {
   host: "localhost",
@@ -46,7 +47,7 @@ const getOrderEncoded = (order) => {
   let line = "-------------------------------------------";
   let date = new Date();
   let tipoOrdenString = order.mode;
-  if (order.mode == "enviada") {
+  if (order.mode == constants.ORDER_MODE) {
     //tipoOrdenString =
     //tipoOrdenString + "->" + order.domicilio + "-" + order.telefono;
   }
