@@ -70,4 +70,32 @@ router.get("/sales", async (req, res) => {
   res.status(200).json(result);
 });
 
+router.get("/stats/mode", async (req, res) => {
+  const d = new Date().toISOString().slice(0, 10);
+  var date = d.replace(/-/g, "/");
+  var d2 = new Date(date);
+
+  let result = await Order.aggregate()
+    .match({
+      status: constants.DONE_ORDER,
+      date: {
+        $gte: d2,
+        $lte: d2,
+      },
+    })
+    .group({
+      _id: "$mode",
+      count: {
+        $sum: 1,
+      },
+    })
+    .project({
+      _id: 0,
+      name: "$_id",
+      count: 1,
+    });
+
+  return res.status(200).json(result);
+});
+
 module.exports = router;
