@@ -91,9 +91,71 @@ router.get("/stats/mode", async (req, res) => {
     })
     .project({
       _id: 0,
-      name: "$_id",
+      mode: "$_id",
       count: 1,
     });
+
+  return res.status(200).json(result);
+});
+
+router.get("/stats/repartidor", async (req, res) => {
+  const d = new Date().toISOString().slice(0, 10);
+  var date = d.replace(/-/g, "/");
+  var d2 = new Date(date);
+
+  let result = await Order.aggregate()
+    .match({
+      repartidor_name: { $ne: "" },
+      mode: constants.ORDER_MODE_DOMICILIO,
+      status: constants.DONE_ORDER,
+      date: {
+        $gte: d2,
+        $lte: d2,
+      },
+    })
+    .group({
+      _id: "$repartidor_name",
+      count: {
+        $sum: 1,
+      },
+    })
+    .project({
+      _id: 0,
+      repartidor_name: "$_id",
+      count: 1,
+    })
+    .sort({ count: -1 });
+
+  return res.status(200).json(result);
+});
+
+router.get("/stats/best-products", async (req, res) => {
+  const d = new Date().toISOString().slice(0, 10);
+  var date = d.replace(/-/g, "/");
+  var d2 = new Date(date);
+
+  let result = await Order.aggregate()
+    .match({
+      status: constants.DONE_ORDER,
+    })
+    .unwind({
+      path: "$products_order",
+    })
+    .group({
+      _id: "$products_order.name",
+      count: {
+        $sum: 1,
+      },
+    })
+    .project({
+      _id: 0,
+      count: 1,
+      product: "$_id",
+    })
+    .sort({
+      count: -1,
+    })
+    .limit(5);
 
   return res.status(200).json(result);
 });

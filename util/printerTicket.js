@@ -47,7 +47,7 @@ const getOrderEncoded = (order) => {
   let line = "-------------------------------------------";
   let date = new Date();
   let tipoOrdenString = order.mode;
-  if (order.mode == constants.ORDER_MODE) {
+  if (order.mode == constants.ORDER_MODE_DOMICILIO) {
     //tipoOrdenString =
     //tipoOrdenString + "->" + order.domicilio + "-" + order.telefono;
   }
