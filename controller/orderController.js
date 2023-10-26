@@ -8,7 +8,6 @@ const constants = require("../util/constants");
 router.get("/", async (req, res) => {
   const d = new Date().toISOString().slice(0, 10);
   var date = d.replace(/-/g, "/");
-  console.log(date);
   let result = await Order.find({
     date: { $gte: date, $lte: date },
   });
@@ -61,8 +60,6 @@ router.delete("/:id", async (req, res) => {
 router.get("/sales", async (req, res) => {
   let startDate = req.query.startDate;
   let endDate = req.query.endDate;
-  console.log(startDate);
-  console.log(endDate);
   let result = await Order.find({
     date: { $gte: startDate, $lte: endDate },
     status: constants.DONE_ORDER,
@@ -93,7 +90,8 @@ router.get("/stats/mode", async (req, res) => {
       _id: 0,
       mode: "$_id",
       count: 1,
-    });
+    })
+    .sort({ count: -1 });
 
   return res.status(200).json(result);
 });

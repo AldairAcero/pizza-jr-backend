@@ -10,6 +10,7 @@ const productsController = require("./controller/productController");
 const userController = require("./controller/userController");
 const loginController = require("./controller/loginController");
 const orderController = require("./controller/orderController");
+const cajaController = require("./controller/cajaController");
 const clientController = require("./controller/clientController");
 
 const port = 3001;
@@ -26,6 +27,7 @@ app.use("/user", userController);
 app.use("/login", loginController);
 app.use("/order", orderController);
 app.use("/client", clientController);
+app.use("/caja", cajaController);
 
 mongoose
   .connect(connectionString + dbname, { useNewUrlParser: true })

@@ -4,6 +4,7 @@ const DELIVERED_ORDER = "enviada";
 const PRINTER_1 = "t3";
 const PRINTER_2 = "t4";
 const ORDER_MODE_DOMICILIO = "domicilio";
+const CAJA_PRINCIPAL = "principal";
 
 module.exports = {
   ACTIVE_ORDER: ACTIVE_ORDER,
@@ -12,4 +13,5 @@ module.exports = {
   PRINTER_1: PRINTER_1,
   PRINTER_2: PRINTER_2,
   ORDER_MODE_DOMICILIO: ORDER_MODE_DOMICILIO,
+  CAJA_PRINCIPAL: CAJA_PRINCIPAL,
 };
