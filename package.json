@@ -18,7 +18,8 @@
     "mongoose": "^7.3.4",
     "mongoose-paginate": "^5.0.3",
     "morgan": "^1.10.0",
-    "properties-reader": "^2.2.0"
+    "properties-reader": "^2.2.0",
+    "winston": "^3.11.0"
   },
   "devDependencies": {
     "nodemon": "^3.0.1"

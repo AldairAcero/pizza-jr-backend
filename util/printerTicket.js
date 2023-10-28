@@ -109,7 +109,7 @@ const printOrder = (order, printerName) => {
   axios
     .post("http://localhost:9100", data)
     .then((res) => {
-      console.log(res.status);
+      logger.info("impresion status " + printerName + ": " + res.status);
     })
     .catch((err) => {
       console.log(err);

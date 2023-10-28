@@ -12,6 +12,7 @@ const loginController = require("./controller/loginController");
 const orderController = require("./controller/orderController");
 const cajaController = require("./controller/cajaController");
 const clientController = require("./controller/clientController");
+const { logger } = require("./util/logger");
 
 const port = 3001;
 const app = express();
@@ -33,11 +34,11 @@ mongoose
   .connect(connectionString + dbname, { useNewUrlParser: true })
   //.connect("mongodb://127.0.0.1:27017/pizzajr")
   .then(() => {
-    console.log("conected to db successful");
+    logger.info("conected to db successful");
     server.listen(port, () => {
-      console.log("Server started on port " + port);
+      logger.info("Server started on port " + port);
     });
   })
   .catch((err) => {
-    console.log("error en conexion");
+    logger.info("error en conexion");
   });
