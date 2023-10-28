@@ -25,6 +25,8 @@ const logger = createLogger({
     new transports.Console({}),
     new transports.File({ filename: "./file.log", options: { flags: "w" } }),
   ],
+  exceptionHandlers: [new transports.File({ filename: "./file.log" })],
+  rejectionHandlers: [new transports.File({ filename: "./file.log" })],
 });
 
 module.exports = { logger };

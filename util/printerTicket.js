@@ -10,6 +10,7 @@ const axios = require("axios");
 const { logger } = require("./logger");
 
 logger.info("printer-ticket set up");
+
 const img = new Image();
 img.onload = () => ctx.drawImage(img, 0, 0);
 img.onerror = (err) => {

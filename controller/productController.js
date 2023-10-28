@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const { Product } = require("./../models/ProductSchema");
+const { logger } = require("./../util/logger");
 
 router.get("/", async (req, res) => {
   let result = await Product.find();
@@ -13,7 +14,7 @@ router.get("/paginated", async (req, res) => {
 
   Product.paginate({}, { page: pageNumber, limit: pageSize }, (err, result) => {
     if (err) {
-      console.log(err);
+      logger.error(err);
       return res
         .status(500)
         .json({ message: "Error occurred while fetching products." });

@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const constants = require("../util/constants");
 const { Caja } = require("../models/CajaSchema");
+const { logger } = require("./../util/logger");
 
 router.get("/", async (req, res) => {
   let result = await Caja.find({ nombre_caja: constants.CAJA_PRINCIPAL });
@@ -12,7 +13,7 @@ router.post("/", async (req, res) => {
   let caja = await Caja.findOne({ nombre_caja: constants.CAJA_PRINCIPAL });
   let fondo_caja = req.query.fondo_caja || 0;
   if (caja == null) {
-    console.log("No existe caja principal, creando");
+    logger.info("No existe caja principal, creando");
     caja = new Caja(
       {
         nombre_caja: constants.CAJA_PRINCIPAL,
@@ -26,9 +27,9 @@ router.post("/", async (req, res) => {
     );
     await caja.save();
   }
-  console.log(caja);
+
   if (!caja.abierta) {
-    console.log("caja cerrada, vamos a abrir");
+    logger.info("caja cerrada, vamos a abrir con un fondo de: " + fondo_caja);
     let result = await Caja.findOneAndUpdate(
       { nombre_caja: constants.CAJA_PRINCIPAL },
       { abierta: true, fondo_caja: fondo_caja, fondo_ventas: 0 },
@@ -36,10 +37,13 @@ router.post("/", async (req, res) => {
         returnOriginal: false,
       }
     );
-    console.log(result);
+
     return res.status(200).json([result]);
   } else {
-    console.log("caja abierta, vamos a cerrar");
+    logger.info(
+      "caja abierta, vamos a cerrar con un total de ventas de: " +
+        caja.fondo_ventas
+    );
     let result = await Caja.findOneAndUpdate(
       { nombre_caja: constants.CAJA_PRINCIPAL },
       { abierta: false },
@@ -47,7 +51,7 @@ router.post("/", async (req, res) => {
         returnOriginal: false,
       }
     );
-    console.log(result);
+
     return res.status(200).json([result]);
   }
 });
