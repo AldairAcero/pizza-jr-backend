@@ -11,7 +11,7 @@ router.get("/", async (req, res) => {
 
 router.post("/", async (req, res) => {
   let caja = await Caja.findOne({ nombre_caja: constants.CAJA_PRINCIPAL });
-  let fondo_caja = req.query.fondo_caja || 0;
+  let { fondo_caja } = req.body;
   if (caja == null) {
     logger.info("No existe caja principal, creando");
     caja = new Caja(
