@@ -4,7 +4,7 @@ const constants = require("../util/constants");
 const { Caja } = require("../models/CajaSchema");
 
 router.get("/", async (req, res) => {
-  let result = await Caja.findOne({ nombre_caja: constants.CAJA_PRINCIPAL });
+  let result = await Caja.find({ nombre_caja: constants.CAJA_PRINCIPAL });
   res.status(200).json(result);
 });
 
@@ -37,7 +37,7 @@ router.post("/", async (req, res) => {
       }
     );
     console.log(result);
-    return res.status(200).json(result);
+    return res.status(200).json([result]);
   } else {
     console.log("caja abierta, vamos a cerrar");
     let result = await Caja.findOneAndUpdate(
@@ -48,7 +48,7 @@ router.post("/", async (req, res) => {
       }
     );
     console.log(result);
-    return res.status(200).json(result);
+    return res.status(200).json([result]);
   }
 });
 

@@ -7,11 +7,13 @@ let EscPosEncoder = require("esc-pos-encoder");
 const constants = require("../util/constants");
 const axios = require("axios");
 
-console.log("printer-ticket");
+const { logger } = require("./logger");
+
+logger.info("printer-ticket set up");
 const img = new Image();
 img.onload = () => ctx.drawImage(img, 0, 0);
 img.onerror = (err) => {
-  console.log("error img");
+  logger.error("error load img");
   throw err;
 };
 img.src = "./loogo.png";
@@ -112,7 +114,7 @@ const printOrder = (order, printerName) => {
       logger.info("impresion status " + printerName + ": " + res.status);
     })
     .catch((err) => {
-      console.log(err);
+      logger.error(err);
     });
 };
 
