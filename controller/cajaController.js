@@ -69,7 +69,7 @@ router.post("/venta", async (req, res) => {
       returnOriginal: false,
     }
   );
-  return res.status(200).json(result);
+  return res.status(200).json([result]);
 });
 
 module.exports = router;
