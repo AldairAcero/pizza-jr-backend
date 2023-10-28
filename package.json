@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "axios": "^1.6.0",
     "canvas": "^2.11.2",
     "cors": "^2.8.5",
     "esc-pos-encoder": "^2.0.1",

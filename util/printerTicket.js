@@ -5,16 +5,8 @@ const canvas = createCanvas(200, 200);
 const ctx = canvas.getContext("2d");
 let EscPosEncoder = require("esc-pos-encoder");
 const constants = require("../util/constants");
+const axios = require("axios");
 
-const options = {
-  host: "localhost",
-  port: 9100,
-  path: "/",
-  method: "POST",
-  headers: {
-    "Content-Type": "application/json",
-  },
-};
 console.log("printer-ticket");
 const img = new Image();
 img.onload = () => ctx.drawImage(img, 0, 0);
@@ -24,32 +16,14 @@ img.onerror = (err) => {
 };
 img.src = "./loogo.png";
 
-const req = http.request(options, (res) => {
-  let body = "";
-  console.log("Status code: ", res.statusCode);
-});
-
-req.on("error", function (e) {
-  //console.log(e);
-});
-
-req.on("data", (chunk) => {
-  body += chunk;
-  console.log("data");
-});
-
-req.on("end", () => {
-  console.log("end");
-});
-
 const getOrderEncoded = (order) => {
   let encoder = new EscPosEncoder();
   let line = "-------------------------------------------";
   let date = new Date();
   let tipoOrdenString = order.mode;
+
   if (order.mode == constants.ORDER_MODE_DOMICILIO) {
-    //tipoOrdenString =
-    //tipoOrdenString + "->" + order.domicilio + "-" + order.telefono;
+    tipoOrdenString + "->" + order.domicilio + "-" + order.telefono;
   }
 
   encoder
@@ -132,8 +106,14 @@ const printOrder = (order, printerName) => {
     id: "testId",
   });
 
-  req.write(data);
-  req.end();
+  axios
+    .post("http://localhost:9100", data)
+    .then((res) => {
+      console.log(res.status);
+    })
+    .catch((err) => {
+      console.log(err);
+    });
 };
 
 module.exports = { printOrder };
