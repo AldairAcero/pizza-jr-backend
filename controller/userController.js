@@ -17,11 +17,9 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { name, userType, password, phoneNumber } = req.body;
 
-  let u = await User.findOne({ phoneNumber: phoneNumber });
+  let u = await User.findOne({ name: name });
   if (u != null)
-    return res
-      .status(400)
-      .json({ message: "El numero de telefono de usuario ya existe" });
+    return res.status(400).json({ message: "El nombre de usuario ya existe" });
   if (userType == "repartidor") {
     let newUser = new User({ ...req.body });
     const insertedUser = await newUser.save();
@@ -44,13 +42,11 @@ router.post("/", async (req, res) => {
 });
 
 router.post("/repartidor", async (req, res) => {
-  const { phoneNumber } = req.body;
+  const { name } = req.body;
 
-  let u = await User.find({ phoneNumber: phoneNumber });
+  let u = await User.find({ name: name });
   if (u != null) {
-    return res
-      .status(400)
-      .json({ message: "El numero de telefono de usuario ya existe" });
+    return res.status(400).json({ message: "El nombre de usuario ya existe" });
   }
 
   let newUser = new User({ ...req.body });
@@ -61,13 +57,13 @@ router.post("/repartidor", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const { id } = req.params;
-  const { name } = req.body;
+  const { phoneNumber, userType } = req.body;
   const user = await User.findById(id);
   if (!user) return res.status(400).json({ message: "usuario no encontrado" });
 
   const result = await User.findByIdAndUpdate(
     id,
-    { name: name },
+    { phoneNumber: phoneNumber, userType: userType },
     {
       returnOriginal: false,
     }
