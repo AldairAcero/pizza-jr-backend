@@ -122,7 +122,8 @@ router.get("/stats/repartidor", async (req, res) => {
       repartidor_name: "$_id",
       count: 1,
     })
-    .sort({ count: -1 });
+    .sort({ count: -1 })
+    .limit(5);
 
   return res.status(200).json(result);
 });
