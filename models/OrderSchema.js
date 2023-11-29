@@ -44,12 +44,6 @@ const OrderSchema = new mongoose.Schema(
       type: Number,
       requiered: false,
     },
-<<<<<<< HEAD
-    user: {
-      type: Object,
-      required: false,
-    },
-=======
     user_name: {
       type: String,
       requiered: false,
@@ -58,7 +52,6 @@ const OrderSchema = new mongoose.Schema(
       type: String,
       requiered: false,
     }
->>>>>>> fde579f (user was added)
   },
   {
     versionKey: false,
