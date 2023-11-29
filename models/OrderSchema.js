@@ -44,6 +44,10 @@ const OrderSchema = new mongoose.Schema(
       type: Number,
       requiered: false,
     },
+    user: {
+      type: Object,
+      required: false,
+    },
   },
   {
     versionKey: false,
